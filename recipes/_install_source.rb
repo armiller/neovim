@@ -22,7 +22,7 @@ include_recipe 'git'
 # Install build depends
 node['neovim']['build_dependencies'].each { |p| package p }
 
-path = ::File.join(Chef::Configp[:file_cache_path], 'neovim')
+path = ::File.join(Chef::Config[:file_cache_path], 'neovim')
 directory path do
   recursive true
 end
