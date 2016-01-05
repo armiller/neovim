@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: neovim
-# Recipe:: default
+# Recipe:: _install_source
 #
 # Copyright 2016 Anthony Miller
 #
@@ -17,4 +17,29 @@
 # limitations under the License.
 #
 
-include_recipe "neovim::_#{node['neovim']['install_method']}"
+include_recipe 'git'
+
+# Install build depends
+node['neovim']['build_dependencies'].each { |p| package p }
+
+path = ::File.join(Chef::Configp[:file_cache_path], 'neovim')
+directory path do
+  recursive true
+end
+
+git 'neovim' do
+  repository 'https://github.com/neovim/neovim.git'
+  revision node['neovim']['version']
+end
+
+execute 'make-neovim' do
+  command 'make'
+  cwd path
+  not_if "nvim --version | grep #{version}"
+end
+
+execute 'install-neovim' do
+  command 'make install'
+  cwd path
+  not_if "nvim --version | grep #{version}"
+end
