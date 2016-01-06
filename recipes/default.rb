@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe "neovim::_#{node['neovim']['install_method']}"
+include_recipe "neovim::_install_#{node['neovim']['install_method']}"

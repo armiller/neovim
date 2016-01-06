@@ -27,9 +27,10 @@ directory path do
   recursive true
 end
 
-git 'neovim' do
+version = node['neovim']['version']
+git path do
   repository 'https://github.com/neovim/neovim.git'
-  revision node['neovim']['version']
+  revision version if version
 end
 
 execute 'make-neovim' do
