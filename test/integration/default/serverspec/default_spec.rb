@@ -1,9 +1,8 @@
-require 'spec_helper'
+require 'serverspec'
 
-describe 'neovim::default' do
-  # Serverspec examples can be found at
-  # http://serverspec.org/resource_types.html
-  it 'does something' do
-    skip 'Replace this with meaningful tests'
-  end
+set :backend, :exec
+
+describe file('/usr/local/bin/nvim') do
+  it { should be_file }
+  it { should be_executable }
 end
